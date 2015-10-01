@@ -6,23 +6,12 @@ package com.summerr.eventbusforthread;
  *          description : <在此填写描述信息>
  */
 public class ThreadEvent {
-    private int count;
-    private String content;
+    public Object object;           //用于Event中传递信息
+    public Event event;             //用于区别Event的类型:获取到内容和取消线程两个类型
 
-    public String getContent() {
-        return content;
+    public enum Event {
+        EVENT_GET_CONTENT, EVENT_CANCLE_THREAD
     }
 
-    public void setContent(String content) {
-        count++;
-        this.content = content;
-    }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 }

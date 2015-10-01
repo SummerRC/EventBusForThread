@@ -40,9 +40,16 @@ public class MainActivity extends Activity {
      * @param threadEvent 事件类型
      */
     public void onEventMainThread(ThreadEvent threadEvent) {
-        StringBuffer content = new StringBuffer(tv_content.getText().toString());
-        content.append(threadEvent.getContent());
-        tv_content.setText(content);
+        switch (threadEvent.event) {        //消息类型
+            case EVENT_CANCLE_THREAD:
+                break;
+            case EVENT_GET_CONTENT:
+                StringBuffer text = new StringBuffer(tv_content.getText().toString());
+                String content = (String) threadEvent.object;
+                text.append(content);
+                tv_content.setText(text);
+        }
+
     }
 
 }

@@ -1,7 +1,5 @@
 package com.summerr.eventbusforthread;
 
-import android.util.Log;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -9,7 +7,6 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.CoreProtocolPNames;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import de.greenrobot.event.EventBus;
 
 public class NetThread extends Thread {
@@ -35,7 +32,7 @@ public class NetThread extends Thread {
             get.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
             HttpResponse response = client.execute(get);
             ThreadEvent threadEvent = new ThreadEvent();
-            EventBus.getDefault().post(threadEvent);
+
 
             if (response.getStatusLine().getStatusCode() == 200) {
                 BufferedReader bin = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -44,7 +41,8 @@ public class NetThread extends Thread {
                 /** 一次读取一个字符，每读取一个字符就发送一个事件 */
                 while ((bin.read()!=-1) && flag) {
                     content = (char) bin.read();
-                    threadEvent.setContent(String.valueOf(content));
+                    threadEvent.object = String.valueOf(content);
+                    threadEvent.event = ThreadEvent.Event.EVENT_GET_CONTENT;
                     /** EventBus发送ThreadEvent事件， 由注册了该ThreadEvent事件的对象接收 */
                     EventBus.getDefault().post(threadEvent);
                     /** 线程休眠0.05秒钟 */
