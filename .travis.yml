@@ -1,21 +1,26 @@
+sudo: false
 language: android
+jdk:
+  - oraclejdk7
+
+# http://docs.travis-ci.com/user/languages/android/
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    # - platform-tools
-    # - tools
+    - tools
+    - build-tools-23.0.2
+    - android-10
+    - extra-android-m2repository
 
-    # The BuildTools version used by your project
-    - build-tools-22.0.1
+before_script:
+  - chmod +x gradlew
+#  - echo no | android create avd --force -n test -t android-10 --abi armeabi
+#  - emulator -avd test -no-skin -no-audio -no-window &
+#  - android-wait-for-emulator
+#  - adb shell input keyevent 82 &
 
-    # The SDK version used to compile your project
-    - android-22
+# Currently connectedCheck fails, so don't run unit test on Emulator for now. Issue:
+# com.android.builder.testing.ConnectedDevice > hasTests[test(AVD) - 2.3.3] FAILED
+# No tests found.
 
-    # Additional components
-    
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-19
-    - sys-img-x86-android-19
+script:
+    - TERM=dumb ./gradlew check
