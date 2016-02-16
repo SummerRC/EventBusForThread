@@ -12,9 +12,6 @@
 bin/
 gen/
 *.iml
-gradlew
-*.bat
-gradle/
 
 # Gradle files
 .gradle/
